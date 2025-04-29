@@ -1,0 +1,15 @@
+C:\Github\TurbaserakonsolspelPRR2\bin\Debug\net8.0\TurbaserakonsolspelPRR2.exe
+C:\Github\TurbaserakonsolspelPRR2\bin\Debug\net8.0\TurbaserakonsolspelPRR2.deps.json
+C:\Github\TurbaserakonsolspelPRR2\bin\Debug\net8.0\TurbaserakonsolspelPRR2.runtimeconfig.json
+C:\Github\TurbaserakonsolspelPRR2\bin\Debug\net8.0\TurbaserakonsolspelPRR2.dll
+C:\Github\TurbaserakonsolspelPRR2\bin\Debug\net8.0\TurbaserakonsolspelPRR2.pdb
+C:\Github\TurbaserakonsolspelPRR2\obj\Debug\net8.0\TurbaserakonsolspelPRR2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Github\TurbaserakonsolspelPRR2\obj\Debug\net8.0\TurbaserakonsolspelPRR2.AssemblyInfoInputs.cache
+C:\Github\TurbaserakonsolspelPRR2\obj\Debug\net8.0\TurbaserakonsolspelPRR2.AssemblyInfo.cs
+C:\Github\TurbaserakonsolspelPRR2\obj\Debug\net8.0\TurbaserakonsolspelPRR2.csproj.CoreCompileInputs.cache
+C:\Github\TurbaserakonsolspelPRR2\obj\Debug\net8.0\TurbaserakonsolspelPRR2.sourcelink.json
+C:\Github\TurbaserakonsolspelPRR2\obj\Debug\net8.0\TurbaserakonsolspelPRR2.dll
+C:\Github\TurbaserakonsolspelPRR2\obj\Debug\net8.0\refint\TurbaserakonsolspelPRR2.dll
+C:\Github\TurbaserakonsolspelPRR2\obj\Debug\net8.0\TurbaserakonsolspelPRR2.pdb
+C:\Github\TurbaserakonsolspelPRR2\obj\Debug\net8.0\TurbaserakonsolspelPRR2.genruntimeconfig.cache
+C:\Github\TurbaserakonsolspelPRR2\obj\Debug\net8.0\ref\TurbaserakonsolspelPRR2.dll
