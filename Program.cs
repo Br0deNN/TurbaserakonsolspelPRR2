@@ -79,6 +79,13 @@ namespace TheGame
         private Player player; //Spelaren
         private List<Enemy> enemies; //Lista med fiender
         private Random random = new Random(); //Genererar slumpade tal
+
+        public void Start()
+        {
+            Console.WriteLine("Ange ditt namn");
+            string name = Console.ReadLine();
+            player = new Player(name, 100); //Skapar en spelare med 100 HP
+        }
     }
 
 
