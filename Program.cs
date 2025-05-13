@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace TheGame
 {
@@ -90,14 +91,15 @@ namespace TheGame
             while(player.isAlive)
             {
                 battleCount++;
-                Console.WriteLine("New battle");
-                //InitBattle();
-                //BatteLoop();
+                Console.WriteLine("Ny omgång");
+                Battle();
+                BattleLoop();
 
             }
-
             Console.WriteLine("Du dog, spelet är över");
-            
+            Console.WriteLine(" ");
+            SaveScore(player.Name, player.score);
+            ShowScores();
         }
 
         private void Battle()
@@ -114,12 +116,16 @@ namespace TheGame
         private void BattleLoop()
         {
             while (player.isAlive && enemies.Any(e => e.isAlive))
-            {
+            {   
+                Console.WriteLine("------------------------");
                 Console.WriteLine("Välj vad du vill göra!");
                 Console.WriteLine("1. Attackera");
                 Console.WriteLine("2. Visa hur mycket liv du har");
+                Console.WriteLine("------------------------");
 
+                
                 int val = int.Parse(Console.ReadLine());
+                Console.WriteLine($"Ditt val: {val}");
 
                 switch (val)
                 {
@@ -127,6 +133,7 @@ namespace TheGame
                         attackEnemy();
                         break;
                     case 2:
+                        Console.WriteLine("Ditt liv: ");
                         Console.WriteLine($"Du har {player.Health}/{player.MaxHealth} hp");
                         break;
                     default: 
@@ -134,12 +141,12 @@ namespace TheGame
                         break;
                     
                 }
-                
-                
+                EnemyTurn();
             }
 
             if (player.isAlive)
-            {
+            {   
+                Console.WriteLine("Bra jobbat!!!!!!!!!!!!!!!!");
                 Console.WriteLine("Du besegrade alla fiender!");
                 player.AddScore(100);               
             }
@@ -148,18 +155,82 @@ namespace TheGame
         private void attackEnemy()
         {
 
+            Console.Write("Välj fiende att attackera: ");
+            Console.WriteLine("");
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if (enemies[i].isAlive)
+                    Console.WriteLine($"{i + 1}. {enemies[i].Name} ({enemies[i].Health} HP)");
+            }
+
+            if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 1 && choice <= enemies.Count)
+            {
+                Enemy target = enemies[choice - 1];
+                if (!target.isAlive)
+                {   
+                    Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!");
+                    Console.WriteLine("Fienden är redan död!");
+                    return;
+                }
+
+                int damage = player.Attack();
+                target.TakeDamage(damage);
+                Console.WriteLine("");
+                Console.WriteLine($"Du gjorde {damage} skada på {target.Name}!");
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt val.");
+            }
+        }
+
+        private void EnemyTurn()
+        {
+            foreach (var enemy in enemies.Where(e => e.isAlive))
+            {
+                int damage = enemy.Attack();
+                player.TakeDamage(damage);
+                Console.WriteLine("");
+                Console.WriteLine($"{enemy.Name} går till attack gör {damage} skada på dig");
+                
+            }
+        }
+
+        private void SaveScore(string name, int score)
+        {
+            using (StreamWriter sw = new StreamWriter("highscores.txt", true)) 
+            {
+                sw.WriteLine($"{name} {score}");
+            }
+        }
+
+        private void ShowScores()
+        {
+            Console.WriteLine("Topplistan");
+            if(File.Exists("highscores.txt")) 
+            {
+                try 
+                {
+                    using (StreamReader sr = new StreamReader("highscores.txt"))
+                    {
+                        string content = sr.ReadToEnd();
+                        Console.WriteLine(content);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Det gick inte att läsa filen...");
+                }
+            }
         }
     }
-
-
-
-
 
     class Program
     {
         static void Main(string[] args)
         {
-            
+            Game game = new Game();
+            game.Start();
         }
     }
 }
