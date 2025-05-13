@@ -85,6 +85,69 @@ namespace TheGame
             Console.WriteLine("Ange ditt namn");
             string name = Console.ReadLine();
             player = new Player(name, 100); //Skapar en spelare med 100 HP
+
+            int battleCount = 0;
+            while(player.isAlive)
+            {
+                battleCount++;
+                Console.WriteLine("New battle");
+                //InitBattle();
+                //BatteLoop();
+
+            }
+
+            Console.WriteLine("Du dog, spelet är över");
+            
+        }
+
+        private void Battle()
+        {
+            enemies = new List<Enemy>();
+            int enemyCount = random.Next(1,3);
+
+            for (int i = 0; i < enemyCount; i++)
+            {
+                enemies.Add(random.Next(0,2) == 0 ? new Spider() : new Zombie());
+            }
+        }
+
+        private void BattleLoop()
+        {
+            while (player.isAlive && enemies.Any(e => e.isAlive))
+            {
+                Console.WriteLine("Välj vad du vill göra!");
+                Console.WriteLine("1. Attackera");
+                Console.WriteLine("2. Visa hur mycket liv du har");
+
+                int val = int.Parse(Console.ReadLine());
+
+                switch (val)
+                {
+                    case 1:
+                        attackEnemy();
+                        break;
+                    case 2:
+                        Console.WriteLine($"Du har {player.Health}/{player.MaxHealth} hp");
+                        break;
+                    default: 
+                        Console.WriteLine("Ogiltigt val");
+                        break;
+                    
+                }
+                
+                
+            }
+
+            if (player.isAlive)
+            {
+                Console.WriteLine("Du besegrade alla fiender!");
+                player.AddScore(100);               
+            }
+        }
+
+        private void attackEnemy()
+        {
+
         }
     }
 
@@ -92,7 +155,7 @@ namespace TheGame
 
 
 
-    class program
+    class Program
     {
         static void Main(string[] args)
         {
