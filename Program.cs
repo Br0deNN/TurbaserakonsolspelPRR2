@@ -3,59 +3,65 @@ using System.Runtime.CompilerServices;
 
 namespace TheGame
 {
-    abstract class Character
+    abstract class Character //Detta är en abstrakt basklass som player och enemy ärver av
     {
-        public string Name {get; set;}
-        public int Health {get; set;}
+        public string Name {get; set;} //Detta hämtar och namnger karaktären
+        public int Health {get; set;} //Detta visar det aktuella HP:t som karaktären har
 
-        public int MaxHealth {get; set;}
+        public int MaxHealth {get; set;} //MaxHealth visar karaktärens maximala HP och används för att beräkna det aktuella HP:t
 
-        public Character(string name, int health)
+        public Character(string name, int health) //Detta är en konstrukor som sätter namn och hp
         {
             Name = name;
             Health = health;
-            MaxHealth = health;
+            MaxHealth = health; //MaxHealth sätts lika med startvärdet på HP
         }
 
-        public void TakeDamage(int amount){
+        public void TakeDamage(int amount) //Denna metod är till för att kunna göra damage på en karaktär
+        {
             Health -= amount;
-            if (Health < 0 ) Health = 0;
+            if (Health < 0 ) //Denna if-sats är till för att kontrollera att HP:t inte är lika med 0
+            {
+                Health = 0;
+            } 
         }
 
-        public bool isAlive => Health > 0 ;
+        public bool isAlive => Health > 0; //Detta är en property som retunerar värdet true om karaktären fortfarande lever
 
-        public abstract int Attack();
+        public abstract int Attack(); //Detta är en abstrakt metod som definnerar hur Attack metoden ska fungera i subklassera
 
     }
 
-    class Player : Character {
-        public int score {get; private set;}
+    class Player : Character //Detta är sjävla spelarens klass, alltså player, som ärver av Character
+    {
+        public int score {get; private set;} //Detta är spelarens poäng och den kan endast ändras inuti klassen
 
-        public Player(string name, int health) : base(name, health)
+        
+        public Player(string name, int health) : base(name, health) //Denna konstrukor vidarbefodrar  väderna name och health till player
         {
-            score = 0;
+            score = 0; //Denna konstrukor bestämmer att spelaren börjar på 0 poäng
         }
 
-        public void AddScore(int amount)
+        public void AddScore(int amount) //Denna metod ökar spelarens poäng genom att addera hur mycket poäng den får med score
         {
             score += amount;
         }
 
-        public override int Attack()
+        public override int Attack() //Denna skriver över metoden Attack och gör så att player gör mellan 5 och 14 skada
         {
-            return new Random().Next(5,15);
+            return new Random().Next(5,15); //Då maxvärdet är 15 så kommer player kunna göra 14 i skada maximalt
         }
     }
 
-    abstract class Enemy : Character
+    abstract class Enemy : Character //Detta är fiendernas klass, enemy och ärver av Charachter
     {
-        public Enemy(string name, int health) : base(name, health){}
+        public Enemy(string name, int health) : base(name, health){} //Denna konstrukor vidarbefodrar väderna name och health till enemy
     }
 
-    class Spider : Enemy 
+    class Spider : Enemy //Spider är en typ av fiende som ärvar av Enemy. Spider är även den svaga fiende typen
     {
         
-        public Spider() : base("Spider", 20) {}
+        public Spider() : base("Spider", 20) {} //Denna konstrukor sätter namn och 20 hp på fienden
 
         public override int Attack()
         {
@@ -64,9 +70,9 @@ namespace TheGame
 
     }
 
-    class Zombie : Enemy 
+    class Zombie : Enemy //Den andra fiendetypen som är den starkare av dem. Zombie ärver också från Enemy
     {
-        public Zombie() : base("Zombie", 30){}
+        public Zombie() : base("Zombie", 30){} //Ger fienden namn och 30 hp
 
         public override int Attack()
         {
@@ -77,46 +83,47 @@ namespace TheGame
 
     class Game //Huvudklass för spelet
     {
-        private Player player; //Spelaren
-        private List<Enemy> enemies; //Lista med fiender
+        private Player player; //Referens till spelaren
+        private List<Enemy> enemies; //Lista med fiender som används i varje battle
         private Random random = new Random(); //Genererar slumpade tal
 
-        public void Start()
+        public void Start() //Denna metod är till för att kunna starta spelet
         {
-            Console.WriteLine("Ange ditt namn");
-            string name = Console.ReadLine();
+            Console.WriteLine("Ange ditt namn"); //Spelaren ska skriva in sitt namn
+            string name = Console.ReadLine();  // Tar emot det spelaren skriver
             player = new Player(name, 100); //Skapar en spelare med 100 HP
 
-            int battleCount = 0;
-            while(player.isAlive)
+            int battleCount = 0; //Sätter ett start värde på vilken runda det är som spelas
+            while(player.isAlive) //Denna while loop körs så länge spelaren är vid liv. 
             {
-                battleCount++;
-                Console.WriteLine("Ny omgång");
-                Battle();
-                BattleLoop();
+                battleCount++; //Adderas med 1 vid varje ny runda som startas
+                Console.WriteLine("Ny omgång"); //Skriver ut ny omgång
+                Battle(); //Denna metod skapar nya fiender
+                BattleLoop(); //Denna metod startar en ny omgång
 
             }
+            //Om spelaren dör så sker följande så avslutas spelet och följande visas.
             Console.WriteLine("Du dog, spelet är över");
             Console.WriteLine(" ");
-            SaveScore(player.Name, player.score);
-            ShowScores();
+            SaveScore(player.Name, player.score); //Detta sparar spelarens poäng till filen highscores.txt
+            ShowScores(); //Denna metod skriver ut alla sparade resultat som finns i filen highscores.txt
         }
 
-        private void Battle()
+        private void Battle() //Denna metod startar en ny omgång där fienderna slumpas fram
         {
-            enemies = new List<Enemy>();
-            int enemyCount = random.Next(1,3);
+            enemies = new List<Enemy>(); //En ny lista skapas för varje Battle som genereras
+            int enemyCount = random.Next(1,3); //En eller två fiender skapas
 
-            for (int i = 0; i < enemyCount; i++)
+            for (int i = 0; i < enemyCount; i++) //Denna loop gör så att antingen Spider eller Zombie läggs till
             {
-                enemies.Add(random.Next(0,2) == 0 ? new Spider() : new Zombie());
+                enemies.Add(random.Next(0,2) == 0 ? new Spider() : new Zombie()); //Denna kodrad gör så att chansen är 50% på varje fiendes chans att spawna
             }
         }
 
-        private void BattleLoop()
+        private void BattleLoop() //Denna metod skapar/startar en ny omgång
         {
-            while (player.isAlive && enemies.Any(e => e.isAlive))
-            {   
+            while (player.isAlive && enemies.Any(e => e.isAlive)) //Denna while loop körs så länge spelaren och minst en fiende är vid liv
+            {   //Uttrycket .Any(e => e.isAlive) returnerar värdet true om minst en fiende i listan har liv kvar, annars retunerar den false
                 Console.WriteLine("------------------------");
                 Console.WriteLine("Välj vad du vill göra!");
                 Console.WriteLine("1. Attackera");
@@ -127,45 +134,45 @@ namespace TheGame
                 int val = int.Parse(Console.ReadLine());
                 Console.WriteLine($"Ditt val: {val}");
 
-                switch (val)
+                switch (val) //Denna switch metod körs baserat på det spelaren skriver in.
                 {
-                    case 1:
-                        attackEnemy();
+                    case 1: //Om val = 1
+                        attackEnemy(); //Spelaren attackerar
                         break;
-                    case 2:
+                    case 2: //Om val = 2
                         Console.WriteLine("Ditt liv: ");
-                        Console.WriteLine($"Du har {player.Health}/{player.MaxHealth} hp");
+                        Console.WriteLine($"Du har {player.Health}/{player.MaxHealth} hp"); //Denna kodrad visar spelarens aktuella HP
                         break;
                     default: 
-                        Console.WriteLine("Ogiltigt val");
+                        Console.WriteLine("Ogiltigt val"); //Denna kodrad visas om spelaren skriver något ogiltigt
                         break;
                     
                 }
-                EnemyTurn();
+                EnemyTurn(); //Efter att spelaren valt vad han vill göra så attackerar alla fiender
             }
 
-            if (player.isAlive)
+            if (player.isAlive) //Denna if-sats kontrollerar om spelaren överlevde striden
             {   
                 Console.WriteLine("Bra jobbat!!!!!!!!!!!!!!!!");
                 Console.WriteLine("Du besegrade alla fiender!");
-                player.AddScore(100);               
+                player.AddScore(100); //100 poäng adderas till score vid vunnen runda              
             }
         }
 
-        private void attackEnemy()
+        private void attackEnemy() //Metod för spelarens attack
         {
-
             Console.Write("Välj fiende att attackera: ");
             Console.WriteLine("");
-            for (int i = 0; i < enemies.Count; i++)
+            for (int i = 0; i < enemies.Count; i++) //Denna loop skriver ut de fiender som fortfarande lever samt hur mycket HP de har
             {
                 if (enemies[i].isAlive)
                     Console.WriteLine($"{i + 1}. {enemies[i].Name} ({enemies[i].Health} HP)");
             }
 
-            if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 1 && choice <= enemies.Count)
-            {
-                Enemy target = enemies[choice - 1];
+            if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 1 && choice <= enemies.Count) //Denna rad läser in värdet från spelaren och försöker göra det till datatypen int och om det lyckas så sparas värdet i variablen choice.
+            {   //Det minsta giltiga talet är 1 och max är 2 eftersom att det finns två fiendetyper
+
+                Enemy target = enemies[choice - 1]; //Hämtar den fiende som spelaren valt att attackera 
                 if (!target.isAlive)
                 {   
                     Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!");

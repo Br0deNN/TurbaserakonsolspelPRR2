@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TurbaserakonsolspelPRR2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e5cec7d6e4edcb75770c1f7efe702120eb485f86")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d14bf97338c23ec7a126e7b8c73fa9d39485c46")]
 [assembly: System.Reflection.AssemblyProductAttribute("TurbaserakonsolspelPRR2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TurbaserakonsolspelPRR2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
