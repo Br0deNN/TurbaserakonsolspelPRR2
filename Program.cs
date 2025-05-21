@@ -173,17 +173,17 @@ namespace TheGame
             {   //Det minsta giltiga talet är 1 och max är 2 eftersom att det finns två fiendetyper
 
                 Enemy target = enemies[choice - 1]; //Hämtar den fiende som spelaren valt att attackera 
-                if (!target.isAlive)
+                if (!target.isAlive) //Denna if-sats kontrollerar om fienden redan är död
                 {   
                     Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!");
                     Console.WriteLine("Fienden är redan död!");
                     return;
                 }
 
-                int damage = player.Attack();
-                target.TakeDamage(damage);
+                int damage = player.Attack(); //Denna kodrad anropar spelarens attack metod
+                target.TakeDamage(damage); //Target är fienden som spelaren valt att attackera
                 Console.WriteLine("");
-                Console.WriteLine($"Du gjorde {damage} skada på {target.Name}!");
+                Console.WriteLine($"Du gjorde {damage} skada på {target.Name}!"); //Visar hur mycket skada du gjorde på fienden du valde
             }
             else
             {
@@ -191,40 +191,40 @@ namespace TheGame
             }
         }
 
-        private void EnemyTurn()
+        private void EnemyTurn() //Fiendernas tur att attackera
         {
-            foreach (var enemy in enemies.Where(e => e.isAlive))
+            foreach (var enemy in enemies.Where(e => e.isAlive)) //Foreach loopen går igenom alla fiender som fortfarande lever 
             {
-                int damage = enemy.Attack();
-                player.TakeDamage(damage);
+                int damage = enemy.Attack(); //Fiendens går till attack
+                player.TakeDamage(damage); //Skadan fiendens gör dras från spelarens hp
                 Console.WriteLine("");
                 Console.WriteLine($"{enemy.Name} går till attack gör {damage} skada på dig");
                 
             }
         }
 
-        private void SaveScore(string name, int score)
+        private void SaveScore(string name, int score) //Metod för att spara spelarens namn och poäng till en fil
         {
-            using (StreamWriter sw = new StreamWriter("highscores.txt", true)) 
+            using (StreamWriter sw = new StreamWriter("highscores.txt", true)) //om true, lägg till namn och poäng längst ner i filen utan att skriva över tidigare resultat
             {
-                sw.WriteLine($"{name} {score}");
+                sw.WriteLine($"{name} {score}"); //Skriver in namn och score
             }
         }
 
-        private void ShowScores()
+        private void ShowScores() //Metod för att skriva ut det som finns i filen
         {
             Console.WriteLine("Topplistan");
-            if(File.Exists("highscores.txt")) 
+            if(File.Exists("highscores.txt")) //Om filen existerar så gör den följande
             {
                 try 
                 {
-                    using (StreamReader sr = new StreamReader("highscores.txt"))
+                    using (StreamReader sr = new StreamReader("highscores.txt")) //Läser in filen den ska skriva ut
                     {
-                        string content = sr.ReadToEnd();
-                        Console.WriteLine(content);
+                        string content = sr.ReadToEnd(); //Läser igenom hela filen
+                        Console.WriteLine(content); //Skriver ut allt i filen
                     }
                 }
-                catch (Exception e)
+                catch (Exception e) //Om något fel skulle uppstå 
                 {
                     Console.WriteLine("Det gick inte att läsa filen...");
                 }
@@ -232,12 +232,12 @@ namespace TheGame
         }
     }
 
-    class Program
+    class Program //Denna klass är det som startar programmet
     {
         static void Main(string[] args)
         {
-            Game game = new Game();
-            game.Start();
+            Game game = new Game(); //Här skapar jag ett nytt objekt av klassen game som innehåller själva spelet
+            game.Start(); //Kör spelet
         }
     }
 }
