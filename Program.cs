@@ -47,9 +47,9 @@ namespace TheGame
             score += amount;
         }
 
-        public override int Attack() //Denna skriver över metoden Attack och gör så att player gör mellan 5 och 14 skada
+        public override int Attack() //Denna skriver över metoden Attack och gör så att player gör mellan 7 och 20 skada
         {
-            return new Random().Next(5,15); //Då maxvärdet är 15 så kommer player kunna göra 14 i skada maximalt
+            return new Random().Next(7,21); //Då maxvärdet är 21 så kommer player kunna göra 20 i skada maximalt
         }
     }
 
@@ -153,6 +153,7 @@ namespace TheGame
 
             if (player.isAlive) //Denna if-sats kontrollerar om spelaren överlevde striden
             {   
+                Console.WriteLine(" ");
                 Console.WriteLine("Bra jobbat!!!!!!!!!!!!!!!!");
                 Console.WriteLine("Du besegrade alla fiender!");
                 player.AddScore(100); //100 poäng adderas till score vid vunnen runda              
